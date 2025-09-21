@@ -9,6 +9,8 @@ Place all written answers from `problemset-03.md` here for easier grading.
 - **1a.**
 See main.py
 
+Output:
+✅ All isearch tests passed!
 
 - **1b.**
 This function is sequential. It makes a single recursive call on a list that is one element smaller. This creates a dependency chain where each step must complete before the next one can begin.
@@ -17,8 +19,46 @@ This function is sequential. It makes a single recursive call on a list that is 
 
 **Span**: The algorithm is sequential so work and span are the same. **Span: $O(n)$**
 
+- **1c.**
+See main.py
 
-
+Output:[False, False, False, False, True, False, False]
+[False, False, False]
+[False]
+[False, False]
+[False]
+[False]
+[False, True, False, False]
+[False, True]
+[False]
+[True]
+[False, False]
+[False]
+[False]
+[False, False, False, False, False, True]
+[False, False, False]
+[False]
+[False, False]
+[False]
+[False]
+[False, False, True]
+[False]
+[False, True]
+[False]
+[True]
+[False, False, False, False, False, False]
+[False, False, False]
+[False]
+[False, False]
+[False]
+[False]
+[False, False, False]
+[False]
+[False, False]
+[False]
+[False]
+[]
+✅ All rsearch tests passed!
 
 - **1d.**
 
