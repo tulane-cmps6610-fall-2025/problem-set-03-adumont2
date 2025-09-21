@@ -243,3 +243,8 @@ def test_parens_match_dc():
     assert parens_match_dc(['(', '(', ')']) == False
     assert parens_match_dc(['(', 'a', ')', ')', '(']) == False
     assert parens_match_dc([]) == True 
+
+# For testing
+if __name__ == "__main__":
+    test_isearch()
+    print("✅ All isearch tests passed!")
