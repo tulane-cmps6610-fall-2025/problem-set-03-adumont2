@@ -9,8 +9,12 @@ import math
 
 # search an unordered list L for a key x using iterate
 def isearch(L, x):
-    ###TODO
-    ###
+    # The accumulator 'found' keeps track of whether x has been seen.
+    # The lambda function returns True if `found` is already True, or if the current `item` equals x.
+    find_logic = lambda found, item: found or (item == x)
+    
+    # We start with an initial value of False because we haven't found x yet.
+    return iterate(find_logic, False, L)
 
 def test_isearch():
     assert isearch([1, 3, 5, 4, 2, 9, 7], 2) == (2 in [1, 3, 5, 4, 2, 9, 7])
