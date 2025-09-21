@@ -32,8 +32,16 @@ def iterate(f, x, a):
 
 # search an unordered list L for a key x using reduce
 def rsearch(L, x):
-    ###TODO
-    ###
+    # 1. Map: Create a list of booleans. 
+    #    Each element is True if the item in L equals x, and False otherwise.
+    bool_list = [item == x for item in L]
+    
+    # The combining function is logical OR.
+    or_op = lambda a, b: a or b
+    
+    # 2. Reduce: The identity for logical OR is False.
+    #    If the list is empty, the result is False.
+    return reduce(or_op, False, bool_list)
 
 def test_rsearch():
     assert rsearch([1, 3, 5, 4, 2, 9, 7], 2) == (2 in [1, 3, 5, 4, 2, 9, 7])
