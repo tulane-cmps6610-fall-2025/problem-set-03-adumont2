@@ -94,9 +94,8 @@ def parens_match_iterative(mylist):
     >>>parens_match_iterative(['('])
     False
     """
-    ### TODO
+    # This part is already correct. It checks if the final count is 0.
     return iterate(parens_update, 0, mylist) == 0
-    ###
 
 
 def parens_update(current_output, next_input):
@@ -111,9 +110,20 @@ def parens_update(current_output, next_input):
     Returns:
       the updated value of `current_output`
     """
-    ###TODO
-    ###
-
+    # If the count is already negative, we've found an invalid sequence
+    # (like a ')' before a '('). We "latch" onto this error state by
+    # returning the negative number immediately.
+    if current_output < 0:
+        return current_output
+        
+    # Update the count based on the current character
+    if next_input == '(':
+        return current_output + 1
+    elif next_input == ')':
+        return current_output - 1
+    else:
+        # Ignore non-parenthesis characters
+        return current_output
 
 def test_parens_match_iterative():
     assert parens_match_iterative(['(', ')']) == True
