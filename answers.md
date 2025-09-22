@@ -1,7 +1,7 @@
 # CMPS 6610 Problem Set 03
 ## Answers
 
-**Name:**_________________________
+**Name:**__ Aaron Dumont_______________________
 
 
 Place all written answers from `problemset-03.md` here for easier grading.
@@ -61,15 +61,33 @@ Output:[False, False, False, False, True, False, False]
 ✅ All rsearch tests passed!
 
 - **1d.**
+**Work:** Rsearch has 2 stages: the initial mapping and the reduction. Let $n$ be the length of the list L.
 
+1. Mapping L to bool_list: This step involves one operation per element. 
 
+Work: $O(n)$
 
+Span: This is a parallel operation so, assuming enough processors, it can be done in constant time. Span: $O(1)$.
+
+2. Reduce call: The reduce function splits the list in half at each step.
+
+Work: $W(n) = 2W(n/2) + O(1). Leaf-dominated. #leaves = $n^{log_2(2)} = n. Therefore, **Work = $O(n)$**
+
+Span: $S(n) = S(n/2) + O(1)$. Balanced. Work per level=1. #levels, $k = log_2(n)$. Therefore **$S(n) = O(logn)$**
+
+Combining the above: 
+
+Work: **$W(n) = O(n) + O(n) = O(n)$**
+
+Span: **$S(n) = O(1) + O(logn) = O(logn)$**
 
 
 - **1e.**
+The ureduce function asymmetrically splits the list into 1/3 and 2/3. It then calls the original (balanced) reduce function on these 2 smaller lists.
 
+Work: $W(n) = W(n/3) + W(2n/3) + O(1)$ Leaf-dominated **Work: $O(n)$**
 
-
+Span: $S(n) = max(S(n/3), S(2n/3)) + O(1)$ = $S(2n/3) +O(1)$ = $O(log(2n/3))$ = **$O(logn)$**
 
 
 - **3b.**
