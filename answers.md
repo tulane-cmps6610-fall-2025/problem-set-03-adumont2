@@ -89,6 +89,34 @@ Work: $W(n) = W(n/3) + W(2n/3) + O(1)$ Leaf-dominated **Work: $O(n)$**
 
 Span: $S(n) = max(S(n/3), S(2n/3)) + O(1)$ = $S(2n/3) +O(1)$ = $O(log(2n/3))$ = **$O(logn)$**
 
+- **2a.**
+```
+dedup (A) =
+    if $|A| \le 1$ then
+        A
+    else
+        let
+            //1. Tag each element with its index.
+            tagged = <(A[i], i) : 0 <= i < |A|>
+
+            // 2. Group indices by element including duplicates using comparison function, cmp.
+            grouped = collect(cmp, tagged)
+
+            // 3. Find the first (minimum) index for each element.
+            first_indices = <(k, reduce min infinity v) : (k, v) in grouped>
+      
+            // 4. Sort the unique elements based on their first index.
+            sorted_unique = sort(cmp_idx, first_indices)
+
+            // 5. Extract just the elements.
+            result = <k : (k, i) in sorted_unique>
+    in
+      result
+    end
+```
+- **2b.**
+
+- **2c.**
 
 - **3b.**
 
