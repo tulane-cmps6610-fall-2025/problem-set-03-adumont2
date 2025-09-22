@@ -130,7 +130,61 @@ dedup(A) =
 
 - **2b.**
 
+Algorithm:
+- Flatten all lists into one sequence.
+- Group elements by value (using hashing or sorting).
+- Output one representative per group.
+
+SPARC Specification:
+```
+fun multi_dedup(A : list of lists) : list =
+    let
+        val flat = flatten(A)
+        val grouped = groupBy(flat, key = id)
+    in
+        keys(grouped)
+    end
+```
+Work:
+
+Flattening: O(N).
+
+Grouping: O(N) expected (hash partitioning).
+
+Extracting keys: O(U), where U = number of unique elements.
+
+Total Work = O(N).
+
+Span:
+
+Flattening can be done in O(log m) span (parallel concatenation).
+
+Grouping can be done in O(log N) span (parallel hashing / sorting).
+
+Extracting keys is O(1) span per group.
+
+Total Span = O(log N).
+
+Comparison:
+- Part (a): Work O(n), Span O(n) (sequential, order-preserving)
+- Part (b): Work O(N), Span O(log N) (parallel, order not required)
+
+--
+
 - **2c.**
+
+Useful operations:
+- map: to transform elements into key–value pairs
+- flatten/concat: to merge multiple lists
+- groupBy/reduce: to collect duplicates and keep one representative
+- filter: to remove already-seen elements in sequential dedup
+
+These operations are especially powerful in the distributed setting, where they enable parallelism and reduce span from O(n) to O(log n).
+
+Not useful operations:
+- iterate: this function is not helpful for designing an efficient parallel algorithm because it is inherently sequential. Using it, as shown in my dedup algorithm (in 2a), results in a linear span (O(n)), which offers no parallelism.
+
+--
 
 - **3b.**
 
