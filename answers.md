@@ -91,29 +91,43 @@ Span: $S(n) = max(S(n/3), S(2n/3)) + O(1)$ = $S(2n/3) +O(1)$ = $O(log(2n/3))$ = 
 
 - **2a.**
 ```
-dedup (A) =
-    if $|A| \le 1$ then
-        A
-    else
-        let
-            //1. Tag each element with its index.
-            tagged = <(A[i], i) : 0 <= i < |A|>
+Python like:
+def dedup(A):
+    seen = set()
+    result = []
+    for item in A:
+        if item not in seen:
+            seen.add(item)
+            result.append(item)
+    return result
 
-            // 2. Group indices by element including duplicates using comparison function, cmp.
-            grouped = collect(cmp, tagged)
-
-            // 3. Find the first (minimum) index for each element.
-            first_indices = <(k, reduce min infinity v) : (k, v) in grouped>
-      
-            // 4. Sort the unique elements based on their first index.
-            sorted_unique = sort(cmp_idx, first_indices)
-
-            // 5. Extract just the elements.
-            result = <k : (k, i) in sorted_unique>
+SPARC like:
+dedup(A) =
+  let
+    // f is the function that processes one item.
+    // It takes the current state (seen, result) and an item,
+    // and returns the next state.
+    let f((seen, result), item) =
+      if Set.member(item, seen) then
+        (seen, result) // Item already seen, state is unchanged
+      else
+        // Item is new, add it to both the set and the result list
+        (Set.insert(item, seen), result ++ <item>) 
     in
-      result
+      // Run the iteration, starting with an empty set and empty list.
+      let 
+        (_, final_result) = iterate(f, (Set.empty, <>), A)
+      in
+        final_result
+      end
     end
 ```
+- Work: O(n) — each element is checked once, with O(1) expected membership tests.
+
+- Span: O(n) — recursion is sequential due to order preservation.
+
+- Result: Returns the list of distinct elements of A, preserving their first occurrence order.
+
 - **2b.**
 
 - **2c.**
