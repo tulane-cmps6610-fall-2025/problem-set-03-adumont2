@@ -181,7 +181,7 @@ Useful operations:
 
 These operations are especially powerful in the distributed setting, where they enable parallelism and reduce span from O(n) to O(log n).
 
-Not useful operations:
+Not useful operations for parallelism:
 - iterate: this function is not helpful for designing an efficient parallel algorithm because it is inherently sequential. Using it, as shown in my dedup algorithm (in 2a), results in a linear span (O(n)), which offers no parallelism.
 
 --
