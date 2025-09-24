@@ -155,8 +155,27 @@ def parens_match_scan(mylist):
     False
     
     """
-    ###TODO
-    ###
+        if not mylist:
+        return True
+
+    # 1. Map: Convert ['(', 'a', ')'] to [1, 0, -1]
+    mapped_list = [paren_map(x) for x in mylist]
+    
+    # Define the addition operation for scan and reduce
+    add_op = lambda x, y: x + y
+    
+    # 2. Scan: Compute the running sum at every position.
+    #    scan returns (list_of_partial_sums, total_sum)
+    #    e.g., for [1, 1, -1, -1], returns ([1, 2, 1, 0], 0)
+    scanned_list, total_sum = scan(add_op, 0, mapped_list)
+    
+    # 3. Reduce: Find the minimum value in the partial sums.
+    #    If this is negative, condition 1 is violated.
+    #    The identity for min is positive infinity.
+    min_val = reduce(min_f, float('inf'), scanned_list)
+    
+    # Check both conditions: min is non-negative AND final sum is zero.
+    return min_val >= 0 and total_sum == 0
 
 def scan(f, id_, a):
     """
@@ -242,6 +261,41 @@ def parens_match_dc_helper(mylist):
     # - then compute the solution (R,L) using these solutions, in constant time.
     
     ###
+
+    """
+    Recursive, divide and conquer solution to the parens match problem.
+    
+    Returns:
+      tuple (R, L), where R is the number of unmatched right parentheses, and
+      L is the number of unmatched left parentheses.
+    """
+    # Base cases
+    if len(mylist) == 0:
+        return (0, 0)
+    elif len(mylist) == 1:
+        if mylist[0] == '(':
+            return (0, 1)  # 0 unmatched right, 1 unmatched left
+        elif mylist[0] == ')':
+            return (1, 0)  # 1 unmatched right, 0 unmatched left
+        else:
+            return (0, 0)
+            
+    # Recursive case
+    else:
+        mid = len(mylist) // 2
+        # First, solve subproblems in parallel
+        (R1, L1) = parens_match_dc_helper(mylist[:mid])
+        (R2, L2) = parens_match_dc_helper(mylist[mid:])
+        
+        # Then, compute the solution using the subproblem results.
+        # Unmatched lefts from the first half can match with
+        # unmatched rights from the second half.
+        matched_pairs = min(L1, R2)
+        
+        final_R = R1 + (R2 - matched_pairs)
+        final_L = L2 + (L1 - matched_pairs)
+        
+        return (final_R, final_L)
     
 
 def test_parens_match_dc():

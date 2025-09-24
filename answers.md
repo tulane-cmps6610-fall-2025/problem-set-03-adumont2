@@ -249,15 +249,28 @@ Useful operations:
 - filter: to remove already-seen elements in sequential dedup
 - sort: allows us to organize and structure data which facilitates solving problems in parallel
 
-These operations are especially powerful in the distributed setting, where they enable parallelism and reduce span from O(n) to O(log n) (although sort has $log^2n$ span).
+These operations are especially powerful in the distributed setting, where they enable parallelism and reduce span from $O(n)$ to $O(log n)$ (although sort has $log^2n$ span).
 
 Not useful operations for parallelism:
 - iterate: this function is not helpful for designing an efficient parallel algorithm because it is inherently sequential. Using it, as shown in my dedup algorithm (in 2a), results in a linear span $(O(n)$), which offers no parallelism.
 
 --
 
-- **3b.**
+- **3a.**
+See main.py
 
+--
+
+- **3b.**
+Work: At each step, the algorithm performs a constant amount of work (calling the parens_update function) and then recurses on a subproblem of size n-1. The recurrence of the work is:
+
+$W(n) = W(n-1) + O(1)$ This is balanced. Work per level =1. Base case is defined as n-k = 0 so k=n levels. Therefore solves to $O(n)$.
+
+Span: The next step of the iteration (iterate on the rest of the list) depends directly on the result of the current step (f(x, a[0])), the operations must happen in sequence. There is no opportunity for parallelism.
+
+Therefore, the span recurrence is identical to the work recurrence:
+
+$S(n) = S(n-1) + O(1)$ which solves to $O(n)$ as above.
 
 
 
@@ -272,18 +285,7 @@ Not useful operations for parallelism:
 
 
 
-- **4a.**
 
-
-
-
-- **4b.**
-
-
-
-
-
-- **4c.**
 
 
 
