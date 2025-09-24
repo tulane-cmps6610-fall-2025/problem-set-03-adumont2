@@ -132,7 +132,7 @@ dedup(A) =
 
 Algorithm:
 - Flatten all lists into one sequence.
-- Group elements by value (using hashing or sorting).
+- Group elements by value (using hashing).
 - Output one representative per group.
 
 SPARC Specification:
@@ -159,7 +159,7 @@ Span:
 
 Flattening can be done in O(log m) span (parallel concatenation).
 
-Grouping can be done in O(log N) span (parallel hashing / sorting).
+Grouping can be done in O(log N) span (parallel hashing).
 
 Extracting keys is O(1) span per group.
 
@@ -168,6 +168,75 @@ Total Span = O(log N).
 Comparison:
 - Part (a): Work O(n), Span O(n) (sequential, order-preserving)
 - Part (b): Work O(N), Span O(log N) (parallel, order not required)
+
+I also looked at a multi_dedup using Sort instead of groupBy.
+multi_dedup_sort(A_list : list of lists) : list =
+  let
+    // 1. Combine all lists into one large list.
+    val flat_A = flatten(A_list)
+    val N = |flat_A|
+
+    // 2. Sort the list. This is the key step that groups
+    //    all identical elements next to each other.
+    val sorted_A = sort(flat_A)
+
+    // 3. Create a boolean flag for each element. The flag is true
+    //    if the element is the first in the list or different
+    //    from the element right before it.
+    val is_unique_flag = map(fn (i) =>
+      if i == 0 then
+        true
+      else
+        sorted_A[i] != sorted_A[i-1],
+      tabulate(fn (i) => i, N)
+    )
+
+    // 4. Filter the sorted list, keeping only the elements
+    //    that were flagged as unique.
+    val result = filter(is_unique_flag, sorted_A)
+  in
+    result
+  end
+
+  Work and Span Analysis:
+  For this analysis, let N be the total number of elements across all lists (i.e., |flatten(A_list)|). We assume a parallel sort with $O(NlogN)$ work and $O(log^2N)$ span.
+
+Work: $W(N)$
+
+The total work is the sum of the work for each sequential step. The sort operation is the most computationally expensive part.
+
+flatten: $O(N)$
+
+sort: $O(NlogN)$
+
+map (to flag): $O(N)$
+
+filter: $O(N)$
+
+The recurrence relation is dominated by the sort:
+
+$W(N)=W_{sort}(N) + W_{flatten}(N) + W_{map}(N) + W_{filter}(N)$
+
+$W(N)=O(NlogN)+O(N)+O(N)+O(N)=O(NlogN)$
+
+Span: $S(N)$
+
+The total span is the sum of the spans of each step. Again, the parallel sort is the bottleneck. Let m be the number of lists in the original A_list.
+
+flatten: $O(logm)$
+
+sort: $O(log^2N)$
+
+map (to flag): $O(1)$
+
+filter: $O(logN)$
+
+The recurrence relation is:
+
+$S(N)=S_{flatten}(m) + S_{sort}(N) + S_{map}(N) + S_{filter}(N)$
+$S(N)=O(logm) + O(log^2N) + O(1) + O(logN) = O(log^2N)$
+
+This sort-based approach has more total work than the ideal hasing method but offers more predictable performance.
 
 --
 
@@ -178,11 +247,12 @@ Useful operations:
 - flatten/concat: to merge multiple lists
 - groupBy/reduce: to collect duplicates and keep one representative
 - filter: to remove already-seen elements in sequential dedup
+- sort: allows us to organize and structure data which facilitates solving problems in parallel
 
-These operations are especially powerful in the distributed setting, where they enable parallelism and reduce span from O(n) to O(log n).
+These operations are especially powerful in the distributed setting, where they enable parallelism and reduce span from O(n) to O(log n) (although sort has $log^2n$ span).
 
 Not useful operations for parallelism:
-- iterate: this function is not helpful for designing an efficient parallel algorithm because it is inherently sequential. Using it, as shown in my dedup algorithm (in 2a), results in a linear span (O(n)), which offers no parallelism.
+- iterate: this function is not helpful for designing an efficient parallel algorithm because it is inherently sequential. Using it, as shown in my dedup algorithm (in 2a), results in a linear span $(O(n)$), which offers no parallelism.
 
 --
 
