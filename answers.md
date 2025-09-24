@@ -21,7 +21,7 @@ This function is sequential. It makes a single recursive call on a list that is 
 
 - **1c.**
 See main.py
-
+```
 Output:[False, False, False, False, True, False, False]
 [False, False, False]
 [False]
@@ -59,7 +59,7 @@ Output:[False, False, False, False, True, False, False]
 [False]
 []
 ✅ All rsearch tests passed!
-
+```
 - **1d.**
 **Work:** Rsearch has 2 stages: the initial mapping and the reduction. Let $n$ be the length of the list L.
 
