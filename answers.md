@@ -252,7 +252,7 @@ Useful operations:
 These operations are especially powerful in the distributed setting, where they enable parallelism and reduce span from $O(n)$ to $O(log n)$ (although sort has $log^2n$ span).
 
 Not useful operations for parallelism:
-- iterate: this function is not helpful for designing an efficient parallel algorithm because it is inherently sequential. Using it, as shown in my dedup algorithm (in 2a), results in a linear span $(O(n)$), which offers no parallelism.
+- iterate: this function is not helpful for designing an efficient parallel algorithm because it is inherently sequential. Using it, as shown in my dedup algorithm (in 2a), results in a linear span $(O(n)$), which offers no parallelism. It is useful, however, for the sequential implementation in my dedup algorithm.
 
 --
 
@@ -276,9 +276,31 @@ $S(n) = S(n-1) + O(1)$ which solves to $O(n)$ as above.
 
 - **3d.**
 
+The parens_match_scan solution has three main, sequential steps:
 
+A parallel map to convert parentheses to numbers.
 
+An efficient parallel scan to get the running totals.
 
+A parallel reduce to find the minimum of the running totals.
+
+We examined fastscan in class which uses contraction. To create the subproblem of half the size the work and span recurrences are:
+
+$W(n) = W(n/2) + cn$. This is root dominated so $W(n) = O(n)$
+
+$S(n) = S(n/2) + 1$ (combination can be done in parallel in constant time with infinite processors). This recurrence is balanced. Work per level is 1. Number of levels: $n$/2k = 1$ $k = log_2n)$. So $S(n) = 1*log_2n$. So $S(n) = O(logn)$
+
+The parallel map is done with $O(n)$ and span $O(1)$, and reduce is performed with $O(n) and $O(logn)$. Namely,:
+
+**$W(n) = O(n) + O(n) + O(n) = O(n)$**
+
+**$S(n) = O(1) + O(logn) + O(logn) = O(logn)$**
+
+--
+
+- **3e.**
+
+See main.py
 
 - **3f.**
 
