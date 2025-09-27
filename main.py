@@ -155,7 +155,7 @@ def parens_match_scan(mylist):
     False
     
     """
-        if not mylist:
+    if not mylist:
         return True
 
     # 1. Map: Convert ['(', 'a', ')'] to [1, 0, -1]
