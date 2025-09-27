@@ -259,6 +259,10 @@ Not useful operations for parallelism:
 - **3a.**
 See main.py
 
+```
+✅ All parens_match_iterative tests passed!
+```
+
 --
 
 - **3b.**
@@ -272,7 +276,192 @@ Therefore, the span recurrence is identical to the work recurrence:
 
 $S(n) = S(n-1) + O(1)$ which solves to $O(n)$ as above.
 
+- **3c.**
 
+See main.py
+
+```
+[1]
+[1, -1]
+[1]
+[-1]
+[1, -1]
+[1]
+[-1]
+[1, 0]
+[1]
+[0]
+[1]
+[1]
+[1]
+[-1]
+[-1]
+[-1]
+[1]
+[1, 0]
+[1]
+[0]
+[1, 0, -1]
+[1]
+[0, -1]
+[0]
+[-1]
+[1, 0, -1, 1]
+[1, 0]
+[1]
+[0]
+[-1, 1]
+[-1]
+[1]
+[1, 0, -1, 1, -1]
+[1, 0]
+[1]
+[0]
+[-1, 1, -1]
+[-1]
+[1, -1]
+[1]
+[-1]
+[1, 0, -1, 1, -1]
+[1, 0]
+[1]
+[0]
+[-1, 1, -1]
+[-1]
+[1, -1]
+[1]
+[-1]
+[1, 1, 0, 1, 0]
+[1, 1]
+[1]
+[1]
+[0, 1, 0]
+[0]
+[1, 0]
+[1]
+[0]
+[1]
+[1, 1]
+[1]
+[1]
+[1, 1, 1]
+[1]
+[1, 1]
+[1]
+[1]
+[1, 1, 1, -1]
+[1, 1]
+[1]
+[1]
+[1, -1]
+[1]
+[-1]
+[1, 1, 1, -1, -1]
+[1, 1]
+[1]
+[1]
+[1, -1, -1]
+[1]
+[-1, -1]
+[-1]
+[-1]
+[1, 1, 1, -1, -1, -1]
+[1, 1, 1]
+[1]
+[1, 1]
+[1]
+[1]
+[-1, -1, -1]
+[-1]
+[-1, -1]
+[-1]
+[-1]
+[1, 1, 1, -1, -1, -1]
+[1, 1, 1]
+[1]
+[1, 1]
+[1]
+[1]
+[-1, -1, -1]
+[-1]
+[-1, -1]
+[-1]
+[-1]
+[1, 2, 3, 2, 1, 0]
+[1, 2, 3]
+[1]
+[2, 3]
+[2]
+[3]
+[2, 1, 0]
+[2]
+[1, 0]
+[1]
+[0]
+[1]
+[1, 1]
+[1]
+[1]
+[1, 1, -1]
+[1]
+[1, -1]
+[1]
+[-1]
+[1, 1, -1]
+[1]
+[1, -1]
+[1]
+[-1]
+[1, 2, 1]
+[1]
+[2, 1]
+[2]
+[1]
+[1]
+[1, 0]
+[1]
+[0]
+[1, 0, -1]
+[1]
+[0, -1]
+[0]
+[-1]
+[1, 0, -1, -1]
+[1, 0]
+[1]
+[0]
+[-1, -1]
+[-1]
+[-1]
+[1, 0, -1, -1, 1]
+[1, 0]
+[1]
+[0]
+[-1, -1, 1]
+[-1]
+[-1, 1]
+[-1]
+[1]
+[1, 0, -1, -1, 1]
+[1, 0]
+[1]
+[0]
+[-1, -1, 1]
+[-1]
+[-1, 1]
+[-1]
+[1]
+[1, 1, 0, -1, 0]
+[1, 1]
+[1]
+[1]
+[0, -1, 0]
+[0]
+[-1, 0]
+[-1]
+[0]
+✅ All parens_match_scan tests passed!
+```
 
 - **3d.**
 
@@ -302,9 +491,24 @@ The parallel map is done with $O(n)$ and span $O(1)$, and reduce is performed wi
 
 See main.py
 
+```
+✅ All parens_match_dc tests passed!
+```
+
 - **3f.**
 
+The parens_match_dc_helper function follows the divide and conquer pattern:
+1. Divide: The list of size $n$ is split into two halves of size $n/2$/
 
+2. Conquer: Two recursive calls are made to solve the subproblems for each half. The problem indicates these calls can be performed in parallel.
+
+3. Combine: The results from the two halves (R1, L1) and (R2, L2) are combined using a constant number of operations (a min, a few additions and subtractions). The combine step is O(1).
+
+Work Recurrence: We solve two subproblems of size $n/2$ and do a constant amount of work to combine them. So,
+
+$W(n) = 2W(n/2) + O(1). Work of first level is 1. Work of second level is 2. This is leaf dominated. Number of leaves is $n^{log_2(2)}$ = n. Therefore **$W(n) = O(n)$**
+
+$S(n) = S(n/2) + O(1)$ as the 2 recursive calls are done in parallel. This is balanced. Work per level is 1. Number of levels is $k = log_2n$. So, **$S(n) = O(logn)$**.
 
 
 

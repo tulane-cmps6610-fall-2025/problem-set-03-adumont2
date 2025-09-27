@@ -311,8 +311,8 @@ def test_parens_match_dc():
 # For testing
 if __name__ == "__main__":
     # Test for Part 1a
-    #test_isearch()
-    #print("✅ All isearch tests passed!")
+    test_isearch()
+    print("✅ All isearch tests passed!")
 
     # Test for Part 1c
     test_rsearch()
