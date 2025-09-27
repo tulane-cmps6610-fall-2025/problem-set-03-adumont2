@@ -317,3 +317,15 @@ if __name__ == "__main__":
     # Test for Part 1c
     test_rsearch()
     print("✅ All rsearch tests passed!")
+    
+    # Test for Part 3a
+    test_parens_match_iterative()
+    print("✅ All parens_match_iterative tests passed!")
+    
+    # Test for Part 3c
+    test_parens_match_scan()
+    print("✅ All parens_match_scan tests passed!")
+    
+    # Test for Part 3e
+    test_parens_match_dc()
+    print("✅ All parens_match_dc tests passed!")

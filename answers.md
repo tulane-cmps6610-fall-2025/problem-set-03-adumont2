@@ -288,7 +288,7 @@ We examined fastscan in class which uses contraction. To create the subproblem o
 
 $W(n) = W(n/2) + cn$. This is root dominated so $W(n) = O(n)$
 
-$S(n) = S(n/2) + 1$ (combination can be done in parallel in constant time with infinite processors). This recurrence is balanced. Work per level is 1. Number of levels: $n$/2k = 1$ $k = log_2n)$. So $S(n) = 1*log_2n$. So $S(n) = O(logn)$
+$S(n) = S(n/2) + 1$ (combination can be done in parallel in constant time with infinite processors). This recurrence is balanced. Work per level is 1. Number of levels: $n/2k = 1$,m $k = log_2n$. So $S(n) = 1*log_2n$. So $S(n) = O(logn)$
 
 The parallel map is done with $O(n)$ and span $O(1)$, and reduce is performed with $O(n) and $O(logn)$. Namely,:
 
