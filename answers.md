@@ -15,9 +15,15 @@ Output:
 - **1b.**
 This function is sequential. It makes a single recursive call on a list that is one element smaller. This creates a dependency chain where each step must complete before the next one can begin.
 
-**Work**: The function is called for each of the $n$ elements in th list. Therefore, the total work is proportional to the length of the list. **Work: $O(n)$**
+**Work**: The function is called for each of the $n$ elements in the list. Therefore, the total work is proportional to the length of the list. 
 
-**Span**: The algorithm is sequential so work and span are the same. **Span: $O(n)$**
+$W(n) = W(n-1) +1$; balanced. Continues shrinking list until $n-k=0$. $k=n$ ($n$ levels). Therefore, $n$ x 1 so:
+
+**Work: $O(n)$**
+
+**Span**: The algorithm is sequential so work and span are the same. $S(n) = S(n-1) +1$; balanced. Continues shrinking list until $n-k=0$. $k=n$ ($n$ levels). Therefore, $n$ x 1 so:
+
+**Span: $O(n)$**
 
 - **1c.**
 See main.py
