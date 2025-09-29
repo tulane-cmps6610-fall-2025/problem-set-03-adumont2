@@ -89,11 +89,13 @@ Span: **$S(n) = O(1) + O(logn) = O(logn)$**
 
 
 - **1e.**
-The ureduce function asymmetrically splits the list into 1/3 and 2/3. It then calls the original (balanced) reduce function on these 2 smaller lists.
+The ureduce function asymmetrically splits the list into 1/3 and 2/3. It then calls the original reduce function on these 2 smaller lists.
 
-Work: $W(n) = W(n/3) + W(2n/3) + O(1)$ Leaf-dominated **Work: $O(n)$**
+Work: $W(n) = W(n/3) + W(2n/3) + O(1)$ Leaf-dominated Total number of leaves is n. At each level the sum of the subproblems is n (eg. level 0 = $n$, level 2 $n/3 + 2n/3$. Level 3 $n/9+2n/9+2n/9 + 4n/9$). **Work: $O(n)$**
 
-Span: $S(n) = max(S(n/3), S(2n/3)) + O(1)$ = $S(2n/3) +O(1)$ = $O(log(2n/3))$ = **$O(logn)$**
+Span: $S(n) = max(S(n/3), S(2n/3)) + O(1)$ = $S(2n/3) +O(1)$ Recurrnece stops after k steps when $(2/3)^k \cdot n =1$. $n=(3/2)^k$ $k = log_{3/2}(n)$
+
+So **$S(n) = O(logn)$**
 
 - **2a.**
 ```
@@ -128,9 +130,12 @@ dedup(A) =
       end
     end
 ```
-- Work: O(n) — each element is checked once, with O(1) expected membership tests.
+- Work: $W(n) = W(n-1) +O(1)$; Balanced. Continues until n-k=0. n=k. n levels x work per level (1) = $n$. 
 
-- Span: O(n) — recursion is sequential due to order preservation.
+  So **$W(n) = O(n)$** — each element is checked once, with O(1) expected membership tests.
+
+- Span: $S(n) = S(n-1) +O(1)$; Balanced. Continues until n-k=0. n=k. n levels x work per level (1) = $n$. 
+  so **$S(n) = O(n)$** — recursion is sequential due to order preservation.
 
 - Result: Returns the list of distinct elements of A, preserving their first occurrence order.
 
@@ -153,27 +158,27 @@ fun multi_dedup(A : list of lists) : list =
 ```
 Work:
 
-Flattening: O(N).
+Flattening: $O(N)$.
 
-Grouping: O(N) expected (hash partitioning).
+Grouping: $O(N)$ expected (hash partitioning).
 
-Extracting keys: O(U), where U = number of unique elements.
+Extracting keys: $O(U)$, where $U$ = number of unique elements.
 
-Total Work = O(N).
+Total Work = $O(N)$.
 
 Span:
 
-Flattening can be done in O(log m) span (parallel concatenation).
+Flattening can be done in $O(log m)$ span (parallel concatenation).
 
-Grouping can be done in O(log N) span (parallel hashing).
+Grouping can be done in $O(log N)$ span (parallel hashing).
 
-Extracting keys is O(1) span per group.
+Extracting keys is $O(1)$ span per group.
 
-Total Span = O(log N).
+Total Span = $O(log N)$.
 
 Comparison:
-- Part (a): Work O(n), Span O(n) (sequential, order-preserving)
-- Part (b): Work O(N), Span O(log N) (parallel, order not required)
+- Part (a): Work $O(n)$,$ Span $O(n)$ (sequential, order-preserving)
+- Part (b): Work $O(N)$, Span $O(log N)$ (parallel, order not required)
 
 I also looked at a multi_dedup using Sort instead of groupBy.
 multi_dedup_sort(A_list : list of lists) : list =
@@ -242,7 +247,7 @@ The recurrence relation is:
 $S(N)=S_{flatten}(m) + S_{sort}(N) + S_{map}(N) + S_{filter}(N)$
 $S(N)=O(logm) + O(log^2N) + O(1) + O(logN) = O(log^2N)$
 
-This sort-based approach has more total work than the ideal hasing method but offers more predictable performance.
+This sort-based approach has more total work than the ideal hashing method but offers more predictable performance.
 
 --
 
@@ -274,7 +279,7 @@ See main.py
 - **3b.**
 Work: At each step, the algorithm performs a constant amount of work (calling the parens_update function) and then recurses on a subproblem of size n-1. The recurrence of the work is:
 
-$W(n) = W(n-1) + O(1)$ This is balanced. Work per level =1. Base case is defined as n-k = 0 so k=n levels. Therefore solves to $O(n)$.
+$W(n) = W(n-1) + O(1)$ This is balanced. Work per level =1. Base case is defined as $n-k$ so $k=n$ levels. Therefore solves to $O(n)$.
 
 Span: The next step of the iteration (iterate on the rest of the list) depends directly on the result of the current step (f(x, a[0])), the operations must happen in sequence. There is no opportunity for parallelism.
 
@@ -504,7 +509,7 @@ See main.py
 - **3f.**
 
 The parens_match_dc_helper function follows the divide and conquer pattern:
-1. Divide: The list of size $n$ is split into two halves of size $n/2$/
+1. Divide: The list of size $n$ is split into two halves of size $n/2$.
 
 2. Conquer: Two recursive calls are made to solve the subproblems for each half. The problem indicates these calls can be performed in parallel.
 
