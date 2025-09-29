@@ -10,7 +10,7 @@ Place all written answers from `problemset-03.md` here for easier grading.
 See main.py
 
 Output:
-✅ All isearch tests passed!
+All isearch tests passed!
 
 - **1b.**
 This function is sequential. It makes a single recursive call on a list that is one element smaller. This creates a dependency chain where each step must complete before the next one can begin.
@@ -64,7 +64,7 @@ Output:[False, False, False, False, True, False, False]
 [False]
 [False]
 []
-✅ All rsearch tests passed!
+All rsearch tests passed!
 ```
 - **1d.**
 **Work:** Rsearch has 2 stages: the initial mapping and the reduction. Let $n$ be the length of the list L.
@@ -271,7 +271,7 @@ Not useful operations for parallelism:
 See main.py
 
 ```
-✅ All parens_match_iterative tests passed!
+ All parens_match_iterative tests passed!
 ```
 
 --
@@ -471,7 +471,7 @@ See main.py
 [-1, 0]
 [-1]
 [0]
-✅ All parens_match_scan tests passed!
+All parens_match_scan tests passed!
 ```
 
 - **3d.**
@@ -503,7 +503,7 @@ The parallel map is done with $O(n)$ and span $O(1)$, and reduce is performed wi
 See main.py
 
 ```
-✅ All parens_match_dc tests passed!
+All parens_match_dc tests passed!
 ```
 
 - **3f.**
