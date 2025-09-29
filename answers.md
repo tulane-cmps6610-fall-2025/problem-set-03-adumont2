@@ -517,7 +517,7 @@ The parens_match_dc_helper function follows the divide and conquer pattern:
 
 Work Recurrence: We solve two subproblems of size $n/2$ and do a constant amount of work to combine them. So,
 
-$W(n) = 2W(n/2) + O(1). Work of first level is 1. Work of second level is 2. This is leaf dominated. Number of leaves is $n^{log_2(2)}$ = n. Therefore **$W(n) = O(n)$**
+$W(n) = 2W(n/2) + O(1)$. Work of first level is 1. Work of second level is 2. This is leaf dominated. Number of leaves is $n^{log_2(2)}$ = n. Therefore **$W(n) = O(n)$**
 
 $S(n) = S(n/2) + O(1)$ as the 2 recursive calls are done in parallel. This is balanced. Work per level is 1. Number of levels is $k = log_2n$. So, **$S(n) = O(logn)$**.
 
